@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		39CD220C2DD86D0200EFEA3E /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 39CD220B2DD86D0200EFEA3E /* SDWebImage */; };
+		39CD220F2DD86E8E00EFEA3E /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 39CD220E2DD86E8E00EFEA3E /* SDWebImageSwiftUI */; };
+		39CD22112DD86FE800EFEA3E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 39CD22102DD86FE300EFEA3E /* Info.plist */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		398FD3872DD797B800489AA0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +33,7 @@
 		398FD3782DD797B700489AA0 /* ecosphere.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ecosphere.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		398FD3862DD797B800489AA0 /* ecosphereTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ecosphereTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		398FD3902DD797B800489AA0 /* ecosphereUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ecosphereUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		39CD22102DD86FE300EFEA3E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -52,6 +59,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39CD220F2DD86E8E00EFEA3E /* SDWebImageSwiftUI in Frameworks */,
+				39CD220C2DD86D0200EFEA3E /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +84,7 @@
 		398FD36F2DD797B700489AA0 = {
 			isa = PBXGroup;
 			children = (
+				39CD22102DD86FE300EFEA3E /* Info.plist */,
 				398FD37A2DD797B700489AA0 /* ecosphere */,
 				398FD3892DD797B800489AA0 /* ecosphereTests */,
 				398FD3932DD797B800489AA0 /* ecosphereUITests */,
@@ -112,6 +122,8 @@
 			);
 			name = ecosphere;
 			packageProductDependencies = (
+				39CD220B2DD86D0200EFEA3E /* SDWebImage */,
+				39CD220E2DD86E8E00EFEA3E /* SDWebImageSwiftUI */,
 			);
 			productName = ecosphere;
 			productReference = 398FD3782DD797B700489AA0 /* ecosphere.app */;
@@ -195,6 +207,10 @@
 			);
 			mainGroup = 398FD36F2DD797B700489AA0;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				39CD220A2DD86D0200EFEA3E /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				39CD220D2DD86E6800EFEA3E /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 398FD3792DD797B700489AA0 /* Products */;
 			projectDirPath = "";
@@ -212,6 +228,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39CD22112DD86FE800EFEA3E /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -585,6 +602,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		39CD220A2DD86D0200EFEA3E /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.21.0;
+			};
+		};
+		39CD220D2DD86E6800EFEA3E /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		39CD220B2DD86D0200EFEA3E /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 39CD220A2DD86D0200EFEA3E /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+		39CD220E2DD86E8E00EFEA3E /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 39CD220D2DD86E6800EFEA3E /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 398FD3702DD797B700489AA0 /* Project object */;
 }

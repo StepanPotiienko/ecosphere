@@ -11,7 +11,7 @@ import SwiftUI
 struct ecosphereApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
-        }
+            MainView().fixedSize()
+        }.windowResizability(.contentSize)
     }
 }
