@@ -7,12 +7,11 @@ import UniformTypeIdentifiers
 
 struct MainView: View {
     var body: some View {
-        VStack(spacing: 20) {
+        VStack() {
             WallpaperPreviewHolder()
             ContentView()
         }
-        .padding()
-        .frame(minWidth: 600, minHeight: 400)
+        .frame(width: 600, height: 500)
     }
 }
 
@@ -20,36 +19,58 @@ struct WallpaperPreviewHolder: View {
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible()),
+        GridItem(.flexible()),
     ]
     
     let imageUrls = [
         URL(string: "https://cdn.pixabay.com/photo/2025/05/07/19/13/soap-bubbles-9585871_1280.jpg")!,
         URL(string: "https://hws.dev/paul.jpg")!,
-        URL(string: "https://cdn.pixabay.com/photo/2023/12/26/10/30/ai-generated-8469223_1280.jpg")!,
-        URL(string: "https://cdn.pixabay.com/photo/2023/05/29/07/53/wallpaper-8026297_1280.jpg")!
+        URL(string: "https://cdn.pixabay.com/photo/2025/05/04/11/13/california-9577976_1280.jpg")!,
+        URL(string: "https://cdn.pixabay.com/photo/2025/04/30/04/39/sunflower-9568413_1280.jpg")!,
+        URL(string: "https://cdn.pixabay.com/photo/2022/09/05/04/53/snake-7433282_1280.jpg")!,
+        URL(string: "https://cdn.pixabay.com/photo/2025/05/04/18/04/bird-9578746_1280.jpg")!
     ]
     
-    let numberOfRows: CGFloat = 4
-
-
-        var body: some View {
-            ZStack {
-                Color.white
-                GeometryReader { geo in
-                    LazyVGrid(columns: columns) {
-                        ForEach(imageUrls, id: \.self) { url in
-                            WallpaperPreview(url: url)
-                        }
-                    }
+    var body: some View {
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 16) {
+                ForEach(imageUrls, id: \.self) { url in
+                    WallpaperPreview(url: url, onClick: {
+                        setDesktopWallpaper(from: url)
+                    })
                 }
-                .padding()
             }
+            .padding()
         }
+    }
+    
+    func setDesktopWallpaper(from url: URL) {
+        let destination = FileManager.default.temporaryDirectory.appendingPathComponent(url.lastPathComponent)
+        
+        URLSession.shared.downloadTask(with: url) { tempURL, response, error in
+            guard let tempURL = tempURL, error == nil else {
+                print("Download error: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            
+            do {
+                try? FileManager.default.removeItem(at: destination)
+                try FileManager.default.copyItem(at: tempURL, to: destination)
+                
+                if let screen = NSScreen.main {
+                    try NSWorkspace.shared.setDesktopImageURL(destination, for: screen, options: [:])
+                }
+            } catch {
+                print("Failed to set wallpaper: \(error)")
+            }
+        }.resume()
+    }
 }
 
 struct WallpaperPreview: View {
     var url: URL
-
+    var onClick: () -> Void
+    
     var body: some View {
         AsyncImage(url: url) { image in
             image
@@ -58,14 +79,24 @@ struct WallpaperPreview: View {
         } placeholder: {
             ProgressView()
         }
-        .frame(width: 250, height: 150)
+        .onHover { hovering in
+            if hovering {
+                NSCursor.pointingHand.push()
+            } else {
+                NSCursor.pop()
+            }
+        }
+        .onTapGesture {
+            onClick()
+        }
+        .frame(width: 180, height: 120)
         .clipped()
         .cornerRadius(10)
     }
 }
 
 struct ContentView: View {
-    func setDesktopWallpaper(fileUrl: URL) {
+    func setDesktopWallpaperFromLocalFile(fileUrl: URL) {
         do {
             if let screen = NSScreen.main {
                 try NSWorkspace.shared.setDesktopImageURL(fileUrl, for: screen, options: [:])
@@ -77,17 +108,16 @@ struct ContentView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            Button("Choose Wallpaper") {
+            Button("Choose Wallpaper from Gallery") {
                 selectImage { selectedURL in
                     if let url = selectedURL {
-                        setDesktopWallpaper(fileUrl: url)
+                        setDesktopWallpaperFromLocalFile(fileUrl: url)
                     } else {
                         print("No image selected.")
                     }
                 }
             }
             .padding()
-            .background(Color.white.opacity(0.8))
             .cornerRadius(10)
         }
     }
@@ -102,28 +132,5 @@ struct ContentView: View {
                 completion(nil)
             }
         }
-    }
-}
-
-class SoundPlayer {
-    var player: AVAudioPlayer?
-
-    func playSound(named name: String) {
-        guard let url = Bundle.main.url(forResource: name, withExtension: "mp3") else {
-            print("Sound not found")
-            return
-        }
-
-        do {
-            player = try AVAudioPlayer(contentsOf: url)
-            player?.numberOfLoops = -1
-            player?.play()
-        } catch {
-            print("Error playing sound: \(error)")
-        }
-    }
-
-    func stopSound() {
-        player?.stop()
     }
 }
